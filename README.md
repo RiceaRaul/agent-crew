@@ -1,7 +1,7 @@
 # agent-crew: a Copilot CLI agent team with shared code rules
 
 Fourteen single-job agents (`team-*`) for GitHub Copilot CLI, the shared rules from
-[`../code-style`](../code-style/CODE_STYLE.md), and `team.py`: a small tool (Python 3.11+, standard
+[`CODE_STYLE.md`](CODE_STYLE.md), and `team.py`: a small tool (Python 3.11+, standard
 library only, Linux/macOS/Windows) that keeps the workflow state, creates the phase documents,
 runs the quality gates, proposes models and powers the hooks.
 
@@ -16,7 +16,7 @@ text here is original.
 
 ```bash
 git clone https://github.com/RiceaRaul/agent-crew.git ~/dev/agent-crew
-# needs your CODE_STYLE.md: ~/dev/code-style next to it, or pass --code-style <path>
+# uses CODE_STYLE.md from this repo; pass --code-style <path> to use another
 python3 ~/dev/agent-crew/team.py install            # Windows: python  %USERPROFILE%\dev\agent-crew\team.py install
 ```
 
@@ -41,7 +41,7 @@ Linux / macOS:
 
 ```bash
 TEAM='python3 /home/<you>/dev/agent-crew/team.py'
-mkdir -p ~/.copilot/agents ~/.copilot/skills ~/.copilot/hooks
+mkdir -p ~/.copilot/agents ~/.copilot/skills ~/.copilot/hooks ~/.copilot/instructions
 
 for f in ~/dev/agent-crew/agents/*.agent.md; do
   sed "s|{{TEAM}}|$TEAM|g" "$f" > ~/.copilot/agents/"$(basename "$f")"
@@ -49,8 +49,9 @@ done
 
 cp -r ~/dev/agent-crew/skills/* ~/.copilot/skills/
 sed -i "s|{{TEAM}}|$TEAM|g" ~/.copilot/skills/*/SKILL.md
-cp ~/dev/code-style/CODE_STYLE.md ~/.copilot/skills/code-style/
-~/dev/code-style/install.sh user copilot     # rules for every session
+cp ~/dev/agent-crew/CODE_STYLE.md ~/.copilot/skills/code-style/
+{ printf -- '---\napplyTo: "**"\n---\n\n'; cat ~/dev/agent-crew/CODE_STYLE.md; } \
+  > ~/.copilot/instructions/code-style.instructions.md   # rules for every session
 ```
 
 Windows (PowerShell 7):
@@ -68,9 +69,9 @@ Copy-Item "$HOME\dev\agent-crew\skills\*" "$cop\skills" -Recurse -Force
 Get-ChildItem "$cop\skills\*\SKILL.md" | ForEach-Object {
   (Get-Content $_ -Raw).Replace('{{TEAM}}', $team) | Set-Content $_ -NoNewline
 }
-Copy-Item "$HOME\dev\code-style\CODE_STYLE.md" "$cop\skills\code-style\"
+Copy-Item "$HOME\dev\agent-crew\CODE_STYLE.md" "$cop\skills\code-style\"
 
-$rules = Get-Content "$HOME\dev\code-style\CODE_STYLE.md" -Raw
+$rules = Get-Content "$HOME\dev\agent-crew\CODE_STYLE.md" -Raw
 "---`napplyTo: `"**`"`n---`n`n$rules" | Set-Content "$cop\instructions\code-style.instructions.md"
 ```
 
@@ -192,6 +193,7 @@ stderr and lets the call through. For debugging, set `TEAM_HOOK_LOG=/path/log` t
 ## Layout
 
 ```text
+CODE_STYLE.md  the shared code rules (installed as Copilot instructions + code-style skill)
 agents/      14 agent prompts (team-*.agent.md), {{TEAM}} = the team.py command
 skills/      team-workflow, code-style, simplicity-check, pipeline-idempotency,
              pattern-migration, dotnet, typescript
@@ -202,7 +204,9 @@ team/        the tool: one module per job (state, workflow, artifacts, gates, mo
 tests/       python3 -m unittest discover -s tests -t .
 ```
 
-Lint: `uvx ruff check . && uvx ruff format --check .` (config copied from code-style).
+Lint (optional, only when you change the Python): `ruff check . && ruff format --check .`
+(`ruff.toml` follows CODE_STYLE.md). Get ruff with `pipx install ruff`, `sudo pacman -S ruff`,
+`winget install astral-sh.ruff` or `uvx ruff`. Not needed to run agent-crew.
 
 ## Verified against the live CLI (Copilot CLI 1.0.105, 2026-11-25)
 

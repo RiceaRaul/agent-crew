@@ -344,4 +344,5 @@ def _remove_empty_skill_dirs(skills_dir: Path) -> None:
 
 
 def default_code_style() -> Path:
-    return TEAM_HOME.parent / "code-style" / "CODE_STYLE.md"
+    """The copy bundled in this repo, so a fresh clone installs without anything else."""
+    return TEAM_HOME / "CODE_STYLE.md"
