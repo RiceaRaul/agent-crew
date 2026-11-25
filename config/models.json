@@ -1,0 +1,83 @@
+{
+  "favorites": [],
+  "catalog": {
+    "claude-haiku-5.5": {
+      "tier": "fast",
+      "cost": 1
+    },
+    "mai-code-2-flash": {
+      "tier": "fast",
+      "cost": 1
+    },
+    "gemini-3.8-flash": {
+      "tier": "fast",
+      "cost": 1
+    },
+    "mai-code-1.1-flash": {
+      "tier": "fast",
+      "cost": 1
+    },
+    "claude-sonnet-5.5": {
+      "tier": "standard",
+      "cost": 2
+    },
+    "gpt-5.6-luna": {
+      "tier": "standard",
+      "cost": 2
+    },
+    "gpt-6-luna": {
+      "tier": "standard",
+      "cost": 2
+    },
+    "gpt-5.3-codex": {
+      "tier": "standard",
+      "cost": 2
+    },
+    "claude-sonnet-5": {
+      "tier": "standard",
+      "cost": 2
+    },
+    "grok-4.6": {
+      "tier": "standard",
+      "cost": 2
+    },
+    "gpt-6.1-terra": {
+      "tier": "strong",
+      "cost": 3
+    },
+    "mai-code-2": {
+      "tier": "strong",
+      "cost": 3
+    },
+    "gemini-4-hydrogen": {
+      "tier": "strong",
+      "cost": 3
+    },
+    "kimi-k3": {
+      "tier": "strong",
+      "cost": 3
+    },
+    "grok-4.7": {
+      "tier": "strong",
+      "cost": 3
+    }
+  },
+  "pins": {},
+  "roleDifficulty": {
+    "team-orchestrator": "medium",
+    "team-analyst": "medium",
+    "team-system-architect": "high",
+    "team-code-architect": "high",
+    "team-backend": "medium",
+    "team-data": "medium",
+    "team-frontend": "medium",
+    "team-implementer": "medium",
+    "team-tester": "medium",
+    "team-refactorer": "medium",
+    "team-security": "high",
+    "team-performance": "medium",
+    "team-reviewer": "high",
+    "team-writer": "low"
+  },
+  "allowPremiumWithoutAsking": false
+}

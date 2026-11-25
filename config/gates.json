@@ -1,0 +1,26 @@
+{
+  "stacks": {
+    "dotnet": {
+      "detect": ["*.sln", "*.slnx", "*.csproj", "src/*/*.csproj"],
+      "extensions": [".cs"],
+      "gates": [
+        {"name": "build", "run": "dotnet build -warnaserror"},
+        {"name": "format", "run": "dotnet format --verify-no-changes --severity warn"},
+        {"name": "test", "run": "dotnet test --no-build"}
+      ],
+      "formatFile": "dotnet format --include {file}"
+    },
+    "ts": {
+      "detect": ["tsconfig.json"],
+      "extensions": [".ts", ".tsx", ".js", ".jsx", ".mjs", ".cjs"],
+      "gates": [
+        {"name": "types", "run": "npx tsc --noEmit"},
+        {"name": "lint", "run": "npx eslint ."},
+        {"name": "format", "run": "npx prettier --check ."},
+        {"name": "test", "run": "npm test --silent"}
+      ],
+      "formatFile": "npx eslint --fix {file}"
+    }
+  },
+  "timeoutSec": 1800
+}

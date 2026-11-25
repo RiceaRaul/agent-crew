@@ -1,0 +1,36 @@
+{
+  "quick": [
+    {"name": "plan", "agents": ["team-orchestrator"], "check": "stories"},
+    {"name": "implement", "agents": ["team-implementer", "team-tester"], "check": "stories-done"},
+    {"name": "review", "agents": ["team-reviewer"], "check": "review-pass", "approval": "done"}
+  ],
+  "full": [
+    {"name": "analyze", "agents": ["team-analyst"], "check": "file:brief.md"},
+    {
+      "name": "design",
+      "agents": ["team-system-architect", "team-code-architect"],
+      "check": "file:adr.md",
+      "approval": "design"
+    },
+    {"name": "stories", "agents": ["team-code-architect"], "check": "stories"},
+    {
+      "name": "implement",
+      "agents": [
+        "team-tester",
+        "team-implementer",
+        "team-backend",
+        "team-data",
+        "team-frontend",
+        "team-refactorer"
+      ],
+      "check": "stories-done"
+    },
+    {"name": "test", "agents": ["team-tester"], "check": "gates"},
+    {
+      "name": "review",
+      "agents": ["team-reviewer", "team-security", "team-performance"],
+      "check": "review-pass",
+      "approval": "done"
+    }
+  ]
+}
